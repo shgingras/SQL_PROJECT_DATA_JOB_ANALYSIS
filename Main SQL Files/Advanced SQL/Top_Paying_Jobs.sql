@@ -16,7 +16,7 @@ WHERE
     (job_title_short = 'Data Analyst' OR job_title_short = 'Business Analyst')
     AND salary_year_avg IS NOT NULL
     AND job_work_from_home = 'False'
-    AND job_location LIKE '%OH%'
+    AND job_country = 'United States'
 ORDER BY
     salary_year_avg DESC
 LIMIT 10;
