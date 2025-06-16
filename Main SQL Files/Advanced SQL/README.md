@@ -54,6 +54,179 @@ ORDER BY
 LIMIT 10;
 ```
 ![Results Q1](Main SQL Files\Advanced SQL\Assets\Query1.png)
+### 2. Top Paying Skills
+Question - What are the skills required for the top paying jobs?
+Specifically which skills are listed for the top relevant data analyst and business analyst roles?
+```sql
+WITH top_paying_jobs AS (
+SELECT 
+    name AS company_name,
+    job_id,
+    job_title_short,
+    salary_year_avg
+FROM
+    job_postings_fact
+LEFT JOIN company_dim ON job_postings_fact.company_id = company_dim.company_id
+WHERE
+    (job_title_short = 'Data Analyst' OR job_title_short = 'Business Analyst')
+    AND salary_year_avg IS NOT NULL
+    AND job_work_from_home = 'False'
+    AND job_country = 'United States'
+ORDER BY
+    salary_year_avg DESC
+LIMIT 10)
+SELECT 
+top_paying_jobs.*,
+skills_dim.skills
+FROM top_paying_jobs
+INNER JOIN skills_job_dim ON top_paying_jobs.job_id = skills_job_dim.job_id
+INNER JOIN skills_dim ON skills_job_dim.skill_id = skills_dim.skill_id
+ORDER BY
+salary_year_avg DESC;
+```
+![Results Q2](Main SQL Files\Advanced SQL\Assets\Query2.png)
+
+### 3. Top Demanded Skills
+Question - What are the most in demand skills for data analysts and business analysts?
+Similar to the top paying job's skills query, this analyzes the the frequecy of skills
+The main difference is that this does not limit the analysis to the top 10 highest paying relevant jobs.
+```sql
+SELECT
+skills,
+COUNT(skills_job_dim.job_id) AS skill_demand_count
+FROM 
+job_postings_fact
+INNER JOIN skills_job_dim ON job_postings_fact.job_id = skills_job_dim.job_id
+INNER JOIN skills_dim ON skills_job_dim.skill_id = skills_dim.skill_id
+WHERE
+    (job_title_short = 'Data Analyst' OR job_title_short = 'Business Analyst')
+    AND salary_year_avg IS NOT NULL
+    AND job_work_from_home = 'False'
+    AND job_country = 'United States'
+GROUP BY
+skills
+ORDER BY 
+skill_demand_count DESC
+LIMIT 10;
+```
+              RESULTS
+|    Skill   |     Skill Demand Count |
+| ---------- | ---------------------- |
+| SQL        | 2336                   |
+| Excel      | 1721                   |
+| Python     | 1295                   |
+| Tableau    | 1288                   |
+| SAS        | 834                    |
+| Power BI   | 833                    |
+| R          | 808                    |
+| PowerPoint | 465                    |
+| Word       | 456                    |
+| SQL Server | 277                    |
+
+SQL is by far the most requested skill — appearing in ~88% more roles than Python.
+
+Excel remains highly dominant, showing it’s a fundamental tool across all levels of roles.
+
+Python and Tableau are nearly tied, both being essential for data manipulation and visualization.
+
+### 4. Top Paying Skills
+This query answers what are the top skills based on average yearly salary.
+By seperating the skills based on job average yearly salary we can see which skills are appropriate for each level.
+This is useful to identify which skills are appropriate to learn if you are seeking a specific salary.
+```sql
+SELECT
+skills,
+ROUND (AVG(salary_year_avg),0) AS avg_salary
+FROM 
+job_postings_fact
+INNER JOIN skills_job_dim ON job_postings_fact.job_id = skills_job_dim.job_id
+INNER JOIN skills_dim ON skills_job_dim.skill_id = skills_dim.skill_id
+WHERE
+    (job_title_short = 'Data Analyst' OR job_title_short = 'Business Analyst')
+    AND salary_year_avg IS NOT NULL
+    AND job_work_from_home = 'False'
+    AND job_country = 'United States'
+GROUP BY
+skills
+ORDER BY 
+avg_salary DESC
+LIMIT 25;
+```
+RESULTS
+| Rank | Skill        | Avg Salary ($)  |
+| ---- | ------------ | --------------- |
+| 1    |   dplyr      |   196,250       |
+| 2    | solidity     |   179,000       |
+| 2    | rust         |   179,000       |
+| 4    | hugging face |   175,000       |
+| 5    | ansible      |   159,640       |
+
+--Key Takeaways
+Hybrid Skills Pay More: Analysts with ML, engineering, or blockchain skills command significantly higher salaries.
+R (dplyr) remains a high-value tool in analytical roles, perhaps in finance, bioinformatics, or academic sectors.
+Machine Learning tools like hugging face, pytorch, and tensorflow suggest analysts in AI-driven industries are better compensated.
+
+### 5. Most Optimal Skills
+This query answers which skills are most optimal to learn by looking at the combination of the overall frequency of skills with which are the highest paying.
+```sql
+WITH skills_demand AS (
+SELECT
+skills_dim.skill_id,
+skills_dim.skills,
+COUNT(skills_job_dim.job_id) AS demand_count
+FROM 
+job_postings_fact
+INNER JOIN skills_job_dim ON job_postings_fact.job_id = skills_job_dim.job_id
+INNER JOIN skills_dim ON skills_job_dim.skill_id = skills_dim.skill_id
+WHERE
+    (job_title_short = 'Data Analyst' OR job_title_short = 'Business Analyst')
+    AND salary_year_avg IS NOT NULL
+    AND job_work_from_home = 'False'
+    AND job_country = 'United States'
+GROUP BY
+skills_dim.skill_id
+),
+average_salary AS (
+SELECT
+skills_job_dim.skill_id,
+ROUND (AVG(job_postings_fact.salary_year_avg),0) AS avg_salary
+FROM 
+job_postings_fact
+INNER JOIN skills_job_dim ON job_postings_fact.job_id = skills_job_dim.job_id
+INNER JOIN skills_dim ON skills_job_dim.skill_id = skills_dim.skill_id
+WHERE
+    (job_title_short = 'Data Analyst' OR job_title_short = 'Business Analyst')
+    AND salary_year_avg IS NOT NULL
+    AND job_work_from_home = 'False'
+    AND job_country = 'United States'
+GROUP BY
+skills_job_dim.skill_id
+)
+
+SELECT
+    skills_demand.skill_id,
+    skills_demand.skills,
+    demand_count,
+    avg_salary
+FROM
+    skills_demand
+INNER JOIN average_salary ON skills_demand.skill_id = average_salary.skill_id
+WHERE 
+    demand_count > 250
+ORDER BY 
+    avg_salary DESC, 
+    demand_count DESC
+LIMIT 25;
+```
+![alt text](image.png)
+
+Insights:
+SQL and Excel dominate in demand but offer lower-than-average salaries compared to programming-centric tools.
+Python stands out as the highest-paying and highly demanded skill, ideal for maximizing career ROI.
+Oracle and R offer strong salaries but have moderate demand.
+Power BI, PowerPoint, and Word are in demand but correlate with lower salary brackets—often tied to reporting and presentation roles.
+SAS and SQL Server are niche skills, moderately paid and less frequently required
+
 ## What I learned
 ## Conclusion
 

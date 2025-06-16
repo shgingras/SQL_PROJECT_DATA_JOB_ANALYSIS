@@ -1,5 +1,4 @@
---This query answers which skills are most optimal to learn.
---Looking at the combination of the overall frequency of skills with which are the highest paying.
+--This query answers which skills are most optimal to learn by looking at the combination of the overall frequency of skills with which are the highest paying.
 WITH skills_demand AS (
 SELECT
 skills_dim.skill_id,
