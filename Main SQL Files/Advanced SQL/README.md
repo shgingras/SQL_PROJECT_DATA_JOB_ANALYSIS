@@ -218,7 +218,7 @@ ORDER BY
     demand_count DESC
 LIMIT 25;
 ```
-![alt text](image.png)
+![Query5](\Coding\SQL_PROJECT_DATA_JOB_ANALYSIS\Main SQL Files\Advanced SQL\Assets\Query5.png)
 
 Insights:
 SQL and Excel dominate in demand but offer lower-than-average salaries compared to programming-centric tools.
@@ -228,5 +228,31 @@ Power BI, PowerPoint, and Word are in demand but correlate with lower salary bra
 SAS and SQL Server are niche skills, moderately paid and less frequently required
 
 ## What I learned
+During my time dedicated to this project, I have gained invaluable experience in data analytics!
+
+-Advanced SQL Querying: Crafting complex query to gain insights. Specifically with CTE, GROUP BY and UNION functions.
+
+-Data Aggregation: Manipulating data with aggregate functions such as COUNT() and AVG for insights.
+
+-Problem Solving Skills: Increased development of my pre-existing problem solving skills. Using complex data to drive decision making.
+
 ## Conclusion
+
+1. Top Paying Roles
+The highest-paying roles for analysts are concentrated in major tech and finance hubs like San Mateo and Bethesda, with salaries reaching well over $300K. These positions are typically full-time, onsite, and offered by leading firms, emphasizing the premium placed on experienced analysts in high-impact industries.
+
+2. Top Paying Skills
+The top-paying jobs commonly require advanced technical skills such as Python, SQL, and Tableau, along with more specialized tools like SAS and Power BI. This indicates that proficiency in a blend of general-purpose and niche tools is a hallmark of high-paying analyst roles.
+
+3. Most Demanded Skills
+Skills like SQL (2336 postings) and Excel (1721 postings) dominate the market in terms of demand. Tools such as Python, Tableau, and Power BI follow closely, highlighting that a strong foundation in both data manipulation and visualization is expected for most roles. Notably, SQL appeared in nearly 90% more postings than Python, confirming its status as a non-negotiable skill.
+
+4. Highest Paying Skills
+Less common but technically advanced skills such as dplyr, Solidity, Rust, and Hugging Face correlated with the highest average salaries—ranging from $160K to nearly $200K. These results show that emerging technologies and cross-functional programming skills (e.g., ML or blockchain) can significantly boost earning potential for analysts in niche sectors.
+
+5. Most Optimal Skills
+When balancing both demand and average salary, Python emerges as the most strategic skill to learn. While SQL and Excel are more widely required, they are linked to lower salary tiers. In contrast, Python offers strong compensation and broad applicability, making it ideal for maximizing both marketability and income. Other skills like Oracle, R, and Tableau also performed well in this optimality measure.
+
+## Closing Thoughts
+This project was a valuable step in developing my data analytics skillset. Writing complex SQL queries and analyzing real job market data helped me understand how technical tools directly impact career opportunities. I gained deeper insight into which skills are most in-demand and which ones can lead to higher-paying roles. Most importantly, it reinforced my passion for turning data into actionable insights—and I’m excited to keep building on this foundation!
 
