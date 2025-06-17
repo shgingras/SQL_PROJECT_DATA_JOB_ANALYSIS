@@ -218,7 +218,7 @@ ORDER BY
     demand_count DESC
 LIMIT 25;
 ```
-![Query5](\Coding\SQL_PROJECT_DATA_JOB_ANALYSIS\Main SQL Files\Advanced SQL\Assets\Query5.png)
+![Query5](Main SQL Files\Advanced SQL\Assets\Query5.png)
 
 Insights:
 SQL and Excel dominate in demand but offer lower-than-average salaries compared to programming-centric tools.
