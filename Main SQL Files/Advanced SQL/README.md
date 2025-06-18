@@ -53,7 +53,7 @@ ORDER BY
     salary_year_avg DESC
 LIMIT 10;
 ```
-![Results Q1](Main SQL Files\Advanced SQL\Assets\Query1.png)
+![Results Q1](Assets/Query1.png)
 ### 2. Top Paying Skills
 Question - What are the skills required for the top paying jobs?
 Specifically which skills are listed for the top relevant data analyst and business analyst roles?
@@ -84,7 +84,7 @@ INNER JOIN skills_dim ON skills_job_dim.skill_id = skills_dim.skill_id
 ORDER BY
 salary_year_avg DESC;
 ```
-![Results Q2](Main SQL Files\Advanced SQL\Assets\Query2.png)
+![Results Q2](Assets/Query2.png)
 
 ### 3. Top Demanded Skills
 Question - What are the most in demand skills for data analysts and business analysts?
@@ -218,7 +218,7 @@ ORDER BY
     demand_count DESC
 LIMIT 25;
 ```
-![Query5](Main SQL Files\Advanced SQL\Assets\Query5.png)
+![Query5](Assets/Query5.png)
 
 Insights:
 SQL and Excel dominate in demand but offer lower-than-average salaries compared to programming-centric tools.
